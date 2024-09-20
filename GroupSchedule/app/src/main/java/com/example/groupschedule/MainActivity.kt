@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainLayout(){
-    LoginScene().LoginScreen1()
+    LoginScene().LoginScreen("Login","Please enter your phone, we will send OTP to your phone by SMS.")
 }
 
 @Preview(showBackground = true)
