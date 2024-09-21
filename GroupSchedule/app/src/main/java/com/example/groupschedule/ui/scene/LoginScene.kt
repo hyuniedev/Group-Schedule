@@ -20,6 +20,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedButton
@@ -38,12 +41,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.groupschedule.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.Box as Box
@@ -69,14 +74,25 @@ fun LoginScreen(onStep: Int, navController: NavController) {
                     .fillMaxWidth(fraction = 0.8f)
                     .padding(top = 30.dp)
             ) {
-                NumberStep(1, onStep==1)
-                NumberStep(2, onStep==2)
-                NumberStep(3, onStep==3)
+                NumberStep(1, onStep == 1)
+                NumberStep(2, onStep == 2)
+                NumberStep(3, onStep == 3)
             }
             Spacer(modifier = Modifier.weight(0.5f))
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(
+                    painter = when (onStep) {
+                        1 -> painterResource(id = R.drawable.phone_24)
+                        2 -> painterResource(id = R.drawable.sms_24)
+                        else -> painterResource(id = R.drawable.info_24)
+                    },
+                    contentDescription = null,
+                    modifier = Modifier.size(124.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = when(onStep){
+                    text = when (onStep) {
                         1 -> "Login"
                         2 -> "OTP Verification"
                         else -> ""
@@ -87,7 +103,7 @@ fun LoginScreen(onStep: Int, navController: NavController) {
                 )
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
-                    text = when(onStep){
+                    text = when (onStep) {
                         1 -> "Please enter your phone, we will send OTP to your phone by SMS."
                         2 -> "Please enter the OTP sent to your phone."
                         else -> ""
@@ -103,7 +119,7 @@ fun LoginScreen(onStep: Int, navController: NavController) {
                         onValueChange = { newText -> phone.value = newText },
                         label = {
                             Text(
-                                text = when(onStep){
+                                text = when (onStep) {
                                     1 -> "Number phone"
                                     2 -> "OTP Code"
                                     else -> ""
@@ -125,6 +141,7 @@ fun LoginScreen(onStep: Int, navController: NavController) {
                             shape = RoundedCornerShape(10.dp)
                         )
                         .clickable(enabled = true) {
+                            if (isLoading.value) return@clickable
                             coroutineScope.launch {
                                 isLoading.value = true
                                 delay(3000)
@@ -153,14 +170,16 @@ fun LoginScreen(onStep: Int, navController: NavController) {
 }
 
 @Composable
-fun Progress(){
+private fun Progress() {
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CircularProgressIndicator(modifier = Modifier
-            .width(22.dp)
-            .aspectRatio(1f), color = MaterialTheme.colorScheme.secondary)
+        CircularProgressIndicator(
+            modifier = Modifier
+                .width(22.dp)
+                .aspectRatio(1f), color = MaterialTheme.colorScheme.secondary
+        )
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = "Loading", fontSize = 18.sp, color = MaterialTheme.colorScheme.secondary)
     }
