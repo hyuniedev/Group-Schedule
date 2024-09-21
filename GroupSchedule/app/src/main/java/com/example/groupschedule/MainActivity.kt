@@ -4,15 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.groupschedule.ui.scene.LoginScene
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.groupschedule.ui.scene.LoginScreen
 import com.example.groupschedule.ui.theme.GroupScheduleTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,8 +28,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainLayout(){
-    LoginScene().LoginScreen("Login","Please enter your phone, we will send OTP to your phone by SMS.")
+fun MainLayout() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "login/1") {
+        composable("login/{step}") { backStackEntry ->
+            val step = backStackEntry.arguments?.getString("step")!!.toInt()
+            LoginScreen(
+                step,
+                navController
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
