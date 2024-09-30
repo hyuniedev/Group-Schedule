@@ -145,7 +145,10 @@ fun LoginScreen(onStep: Int, navController: NavController) {
                             coroutineScope.launch {
                                 isLoading.value = true
                                 delay(3000)
-                                navController.navigate("login/${onStep + 1}")
+                                if(onStep==3)
+                                    navController.navigate("mainScene")
+                                else
+                                    navController.navigate("login/${onStep + 1}")
                             }
                         },
                     contentAlignment = Alignment.Center

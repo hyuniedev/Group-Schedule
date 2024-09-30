@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.groupschedule.ui.scene.LoginScreen
+import com.example.groupschedule.ui.scene.MainScene
 import com.example.groupschedule.ui.theme.GroupScheduleTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,6 +38,9 @@ fun MainLayout() {
                 step,
                 navController
             )
+        }
+        composable("mainScene") {
+            MainScene()
         }
     }
 }
